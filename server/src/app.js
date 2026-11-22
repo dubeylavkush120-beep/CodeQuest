@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -13,7 +16,7 @@ import { fetchGFGUser } from './integrations/gfg.service.js';
 import { fetchGitHubUser } from './integrations/github.service.js';
 
 const app = express();
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '32kb' }));
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 40 }));
@@ -594,6 +597,17 @@ app.get('/api/public/:username', handle(async (req, res) => {
   const dna = computeDeveloperDNA(accounts, 0, 0);
   res.json({ user: safeUser(user), portfolio, accounts, dna, totalSolved, highestRating });
 }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const clientDist = path.resolve(__dirname, '../../client/dist');
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.use((err, req, res, next) => { console.error(err); if (err.code === 11000) return fail(res, 409, 'That value is already in use.'); res.status(500).json({ message: 'Something went wrong. Please try again.' }); });
 export default app;
