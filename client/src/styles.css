@@ -1067,6 +1067,65 @@
   font-weight: 700;
 }
 
+/* Gemini AI Card & Setup Banner */
+.gemini-ai-card {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.16), rgba(59, 130, 246, 0.12));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-top: 14px;
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.15);
+}
+.gemini-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.gemini-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #c084fc;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.gemini-model-pill {
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 10px;
+  color: #e9d5ff;
+  font-family: monospace;
+}
+.gemini-insight-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin: 0;
+}
+.gemini-setup-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px dashed rgba(168, 85, 247, 0.35);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 12px;
+  color: #c4b5fd;
+  margin-top: 14px;
+}
+.gemini-setup-banner code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #f1f5f9;
+}
+
 .company-readiness-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1858,6 +1917,17 @@ body.light-theme .avg-circle span {
 }
 body.light-theme .avg-circle small {
   color: #6d28d9;
+}
+body.light-theme .gemini-ai-card {
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(59, 130, 246, 0.06));
+  border-color: rgba(168, 85, 247, 0.3);
+}
+body.light-theme .gemini-insight-text {
+  color: #334155;
+}
+body.light-theme .gemini-setup-banner {
+  background: rgba(147, 51, 234, 0.05);
+  color: #6b21a8;
 }
 body.light-theme .company-top strong {
   color: #0f172a;

@@ -14,6 +14,7 @@ import { fetchLeetCodeUser } from './integrations/leetcode.service.js';
 import { fetchCodeChefUser } from './integrations/codechef.service.js';
 import { fetchGFGUser } from './integrations/gfg.service.js';
 import { fetchGitHubUser } from './integrations/github.service.js';
+import { generateGeminiReadiness } from './integrations/gemini.service.js';
 
 const app = express();
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -480,7 +481,7 @@ app.get('/api/ai/readiness', auth, handle(async (req, res) => {
     'Keep your daily streak active to build habit discipline.'
   ];
 
-  res.json({
+  const defaultData = {
     companies,
     strengths,
     focusAreas,
@@ -492,7 +493,16 @@ app.get('/api/ai/readiness', auth, handle(async (req, res) => {
       hard,
       averageReadiness: Math.round((googleScore + amazonScore + microsoftScore + metaScore + startupScore) / 5)
     }
+  };
+
+  const readinessData = await generateGeminiReadiness({
+    user: req.user,
+    accounts,
+    stats: { totalSolved, highestRating, easy, medium, hard },
+    defaultData
   });
+
+  res.json(readinessData);
 }));
 
 app.get('/api/ai/daily-quest', auth, handle(async (req, res) => {

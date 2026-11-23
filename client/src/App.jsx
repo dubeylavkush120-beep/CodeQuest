@@ -665,7 +665,7 @@ function ReadinessPage({ notify }) {
     <div className="section-stack">
       <div className="readiness-hero">
         <div className="readiness-hero-text">
-          <div className="eyebrow"><Brain size={14} /> AI INTELLIGENCE ENGINE</div>
+          <div className="eyebrow"><Brain size={14} /> {data.isAiPowered ? 'GEMINI-POWERED AI INTELLIGENCE ENGINE' : 'AI INTELLIGENCE ENGINE'}</div>
           <h2>Company Interview Readiness</h2>
           <p>
             Synthesized algorithmic metrics mapped against real-world technical bar evaluations for Tier-1 tech firms and high-growth unicorns.
@@ -678,6 +678,25 @@ function ReadinessPage({ notify }) {
           </div>
         </div>
       </div>
+
+      {data.aiInsight && (
+        <div className="gemini-ai-card">
+          <div className="gemini-card-header">
+            <div className="gemini-badge"><Sparkles size={14} /> LIVE GEMINI AI STRATEGIC REPORT</div>
+            <span className="gemini-model-pill">gemini-1.5-flash</span>
+          </div>
+          <p className="gemini-insight-text">{data.aiInsight}</p>
+        </div>
+      )}
+
+      {!data.isAiPowered && (
+        <div className="gemini-setup-banner">
+          <Sparkles size={15} style={{ color: '#a855f7' }} />
+          <span>
+            Operating in heuristic baseline mode. Set <strong>GEMINI_API_KEY</strong> in your <code>.env</code> or Render Environment to activate live Google Gemini LLM evaluations.
+          </span>
+        </div>
+      )}
 
       <div className="company-readiness-grid">
         {data.companies?.map(comp => (
