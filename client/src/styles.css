@@ -1519,6 +1519,21 @@ body.light-theme .app-shell {
   color: #0f172a;
 }
 
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6 {
+  color: #0f172a;
+}
+body.light-theme p {
+  color: #475569;
+}
+body.light-theme strong {
+  color: #0f172a;
+}
+
 body.light-theme .sidebar {
   background: #ffffff;
   border-right: 1px solid #e2e8f0;
@@ -1932,15 +1947,63 @@ body.light-theme .gemini-setup-banner {
 body.light-theme .company-top strong {
   color: #0f172a;
 }
+body.light-theme .comp-focus {
+  color: #475569;
+}
+body.light-theme .comp-pct {
+  color: #6d28d9;
+}
+body.light-theme .comp-progress-bar {
+  background: #e2e8f0;
+}
+body.light-theme .comp-status.ready {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #86efac;
+}
+body.light-theme .comp-status.progress {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border-color: #d8b4fe;
+}
+body.light-theme .ai-list li {
+  color: #1e293b;
+}
 body.light-theme .focus-item,
 body.light-theme .strength-item {
   color: #475569;
   background: #f8fafc;
   border-color: #e2e8f0;
 }
+body.light-theme .badge-card-v2 {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
 body.light-theme .badge-card-v2.locked {
   background: #f8fafc;
   border-color: #e2e8f0;
+}
+body.light-theme .badge-name-title {
+  color: #0f172a;
+}
+body.light-theme .badge-desc-text {
+  color: #475569;
+}
+body.light-theme .ach-progress-meta strong {
+  color: #0f172a;
+}
+body.light-theme .ach-progress-meta span {
+  color: #64748b;
+}
+body.light-theme .ach-ring-inner {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+body.light-theme .badge-status-pill.locked {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #cbd5e1;
 }
 body.light-theme .badge-card-v2 strong {
   color: #0f172a;
@@ -1951,12 +2014,49 @@ body.light-theme .badge-card-v2 p {
 body.light-theme .badge-tier-tag {
   background: #f1f5f9;
 }
+body.light-theme .arena-hero {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), #ffffff);
+  border-color: #e2e8f0;
+}
+body.light-theme .arena-hero-left h2 {
+  color: #0f172a;
+}
+body.light-theme .arena-hero-left p {
+  color: #475569;
+}
+body.light-theme .arena-join-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+body.light-theme .active-duel-arena {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+body.light-theme .duel-header-row {
+  border-bottom-color: #e2e8f0;
+}
+body.light-theme .duel-header-row h3 {
+  color: #0f172a;
+}
+body.light-theme .duel-problem-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+body.light-theme .duel-problem-title {
+  color: #0f172a;
+}
+body.light-theme .player-role {
+  color: #64748b;
+}
 body.light-theme .duel-players-bar {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
 body.light-theme .duel-player strong {
   color: #0f172a;
+}
+body.light-theme .duel-player small {
+  color: #64748b;
 }
 body.light-theme .duel-code-box {
   background: #f1f5f9;
@@ -1967,6 +2067,67 @@ body.light-theme .readme-code-block {
   background: #f8fafc;
   border-color: #e2e8f0;
   color: #4f46e5;
+}
+
+/* Auth V2 light mode text visibility */
+body.light-theme .auth-card-header h2 {
+  color: #0f172a;
+}
+body.light-theme .auth-card-header p {
+  color: #64748b;
+}
+body.light-theme .form-group-v2 label {
+  color: #334155;
+}
+body.light-theme .input-field-wrap input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+body.light-theme .input-field-wrap input:focus {
+  background: #ffffff;
+  border-color: #7c3aed;
+}
+body.light-theme .input-field-wrap input::placeholder {
+  color: #94a3b8;
+}
+body.light-theme .password-toggle-btn {
+  color: #64748b;
+}
+body.light-theme .hero-pill-badge {
+  background: rgba(124, 58, 237, 0.08);
+  color: #6d28d9;
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+/* UI Controls and common labels in Light Mode */
+body.light-theme .text-button {
+  color: #6d28d9;
+}
+body.light-theme .empty-inline strong,
+body.light-theme .section-empty strong {
+  color: #0f172a;
+}
+body.light-theme .empty-inline span,
+body.light-theme .section-empty span {
+  color: #64748b;
+}
+body.light-theme .manual-pill,
+body.light-theme .manual-tag {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+body.light-theme .leader-explainer {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #e2e8f0;
+}
+body.light-theme .chart-foot {
+  color: #64748b;
+}
+body.light-theme .dna-card p {
+  color: #64748b;
 }
 
 body.light-theme .leader-person strong {
