@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>CodeQuest — Project Presentation</title>
+<style>
+  :root{
+    --bg:#0b0e14; --bg2:#0f1320; --card:#151925; --card2:#11141f;
+    --border:#2a3149; --border2:#232a3d;
+    --purple:#8b5cf6; --purple2:#a78bfa; --cyan:#38bdf8; --green:#10b981;
+    --orange:#f59e0b; --red:#f87171; --pink:#ec4899;
+    --text:#f8fafc; --muted:#94a3b8; --muted2:#64748b;
+    --mono:"Cascadia Code","Consolas",monospace;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{margin:0;padding:0;background:#05070c;color:var(--text);
+    font-family:"Segoe UI","Inter",system-ui,-apple-system,sans-serif;}
+  .slide{
+    position:relative;width:1280px;height:720px;padding:42px 56px 54px;
+    background:
+      radial-gradient(900px 500px at 88% -8%, rgba(139,92,246,.16), transparent 60%),
+      radial-gradient(700px 420px at -6% 108%, rgba(56,189,248,.12), transparent 60%),
+      linear-gradient(160deg,#0c1018 0%,#0a0d14 55%,#0b0e16 100%);
+    overflow:hidden;break-after:page;page-break-after:always;
+  }
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .slide::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(148,163,184,.045) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(148,163,184,.045) 1px,transparent 1px);
+    background-size:48px 48px;mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 85%);}
+  .topbar{position:absolute;left:0;top:0;width:100%;height:5px;
+    background:linear-gradient(90deg,var(--purple),var(--pink),var(--cyan));}
+  .head{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+  .kicker{font-size:10.5px;font-weight:800;letter-spacing:2.4px;color:var(--purple2);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+  .kicker::before{content:"";width:18px;height:2px;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:2px}
+  h2{margin:0;font-size:30px;line-height:1.12;letter-spacing:-.6px;font-weight:800}
+  h2 .grad{background:linear-gradient(90deg,var(--purple2),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .head .meta{font-size:10px;color:var(--muted2);text-align:right;line-height:1.5;letter-spacing:.5px}
+  .content{position:relative;z-index:2;height:540px;display:flex;flex-direction:column;justify-content:center}
+  .footer{position:absolute;left:56px;right:56px;bottom:18px;z-index:2;display:flex;justify-content:space-between;align-items:center;
+    font-size:9.5px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(148,163,184,.12);padding-top:10px}
+  .footer b{color:var(--muted);font-weight:600}
+
+  /* generic */
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g5{grid-template-columns:repeat(5,1fr)}
+  .card{background:linear-gradient(150deg,rgba(23,28,42,.95),rgba(15,18,28,.95));
+    border:1px solid var(--border);border-radius:14px;padding:16px 17px;position:relative;overflow:hidden}
+  .card::after{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--purple),transparent)}
+  .card.c-cyan::after{background:linear-gradient(90deg,var(--cyan),transparent)}
+  .card.c-green::after{background:linear-gradient(90deg,var(--green),transparent)}
+  .card.c-orange::after{background:linear-gradient(90deg,var(--orange),transparent)}
+  .card.c-pink::after{background:linear-gradient(90deg,var(--pink),transparent)}
+  .card h3{margin:0 0 8px;font-size:14.5px;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+  .card p{margin:0;font-size:11.5px;line-height:1.55;color:var(--muted)}
+  .card ul{margin:6px 0 0;padding-left:16px;font-size:11.5px;line-height:1.65;color:var(--muted)}
+  .card ul li{margin:3px 0}
+  .card ul li b{color:var(--text);font-weight:600}
+  .ico{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0;
+    background:rgba(139,92,246,.16);color:var(--purple2);border:1px solid rgba(139,92,246,.3)}
+  .c-cyan .ico{background:rgba(56,189,248,.14);color:var(--cyan);border-color:rgba(56,189,248,.3)}
+  .c-green .ico{background:rgba(16,185,129,.14);color:#34d399;border-color:rgba(16,185,129,.3)}
+  .c-orange .ico{background:rgba(245,158,11,.14);color:#fbbf24;border-color:rgba(245,158,11,.3)}
+  .c-pink .ico{background:rgba(236,72,153,.14);color:#f472b6;border-color:rgba(236,72,153,.3)}
+  .muted{color:var(--muted)}
+  .small{font-size:10.5px}
+  .tag{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;
+    padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:rgba(148,163,184,.06);color:var(--muted);text-transform:uppercase}
+  .tag.ok{color:#34d399;border-color:rgba(16,185,129,.35);background:rgba(16,185,129,.1)}
+  .tag.warn{color:#fbbf24;border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.1)}
+  .tag.bad{color:#f87171;border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.1)}
+  code,.code{font-family:var(--mono);font-size:10.5px}
+  .code{background:#0a0d15;border:1px solid var(--border2);border-radius:10px;padding:12px 13px;color:#c9d4e5;line-height:1.7;overflow:hidden}
+  .code .k{color:var(--purple2)} .code .n{color:var(--cyan)} .code .g{color:#34d399} .code .o{color:#fbbf24} .code .c{color:var(--muted2)}
+  table{width:100%;border-collapse:collapse;font-size:11px}
+  th{text-align:left;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted2);
+    padding:8px 10px;border-bottom:1px solid var(--border);font-weight:800}
+  td{padding:8px 10px;border-bottom:1px solid rgba(42,49,73,.55);color:var(--muted);vertical-align:top;line-height:1.45}
+  td b{color:var(--text);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  table.compact td{padding:5px 10px;font-size:10.5px}
+  table.compact th{padding:6px 10px}
+
+  /* flow */
+  .flow{display:flex;align-items:stretch;gap:0;margin-top:6px}
+  .node{flex:1;background:linear-gradient(150deg,#171c2a,#11141f);border:1px solid var(--border);border-radius:12px;
+    padding:14px 12px;text-align:center;position:relative}
+  .node .n-ico{font-size:18px;margin-bottom:6px}
+  .node strong{display:block;font-size:12px;margin-bottom:3px}
+  .node span{font-size:9.5px;color:var(--muted);line-height:1.4;display:block}
+  .arrow{width:34px;display:grid;place-items:center;color:var(--purple2);font-size:16px;flex-shrink:0}
+
+  /* title slide */
+  .title-wrap{height:100%;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+  .brandline{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  .brand-mark{width:52px;height:52px;border-radius:15px;background:linear-gradient(145deg,#a48aff,#724ce1);
+    display:grid;place-items:center;box-shadow:0 10px 34px rgba(128,93,234,.45);font-size:24px;font-weight:800;color:#fff}
+  .brandline span{font-size:20px;font-weight:700;letter-spacing:-.4px}
+  h1.big{font-size:74px;line-height:.98;letter-spacing:-3px;margin:0 0 18px;font-weight:800}
+  h1.big .grad{background:linear-gradient(90deg,#c4b5fd 0%,#a78bfa 35%,#38bdf8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:16px;line-height:1.6;color:var(--muted);max-width:720px;margin:0 0 26px}
+  .chips{display:flex;gap:9px;flex-wrap:wrap}
+  .chip{font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:7px 13px;border-radius:999px;
+    border:1px solid var(--border);background:rgba(148,163,184,.06);color:#cbd5e1;text-transform:uppercase}
+  .chip.p{border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.12);color:#c4b5fd}
+  .chip.c{border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#7dd3fc}
+  .title-badge{position:absolute;right:0;top:50%;transform:translateY(-50%);width:300px;height:300px;border-radius:50%;
+    border:1px solid rgba(139,92,246,.3);display:grid;place-items:center;
+    background:radial-gradient(circle,rgba(139,92,246,.16),transparent 68%)}
+  .title-badge .ring{position:absolute;inset:26px;border-radius:50%;border:1px dashed rgba(56,189,248,.28)}
+  .title-badge .ring2{position:absolute;inset:62px;border-radius:50%;border:1px solid rgba(139,92,246,.25)}
+  .title-badge .core{text-align:center}
+  .title-badge .core strong{display:block;font-size:42px;font-weight:800;letter-spacing:-1px;
+    background:linear-gradient(90deg,#c4b5fd,#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .title-badge .core span{font-size:9px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase}
+
+  .pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .stat-big{font-size:26px;font-weight:800;letter-spacing:-.8px;line-height:1;
+    background:linear-gradient(90deg,var(--purple2),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat-lbl{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted2);margin-top:5px}
+
+  @page{size:1280px 720px;margin:0}
+  @media print{ html,body{background:#0b0e14} .slide{margin:0} }
+</style>
+</head>
+<body>
+
+<!-- 1. TITLE -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="title-wrap">
+    <div class="brandline"><div class="brand-mark">CQ</div><span>codequest</span></div>
+    <div class="kicker">MERN Developer Progress Platform</div>
+    <h1 class="big">Make every commit<br/><span class="grad">and solve count.</span></h1>
+    <p class="lede">One unified command center for LeetCode, Codeforces, CodeChef, GeeksforGeeks and GitHub.
+      Sync public profiles, auto-compute streaks, XP and skill DNA, set goals, and publish a verified developer dossier.</p>
+    <div class="chips">
+      <span class="chip p">React 18 + Vite</span>
+      <span class="chip c">Node + Express</span>
+      <span class="chip">MongoDB + Mongoose</span>
+      <span class="chip">JWT Auth</span>
+      <span class="chip">Recharts</span>
+    </div>
+  </div>
+  <div class="title-badge">
+    <div class="ring"></div><div class="ring2"></div>
+    <div class="core"><strong>5</strong><span>Platforms Synced</span></div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Project Presentation</span><span>01 / 19</span></div>
+</section>
+
+<!-- 2. PROBLEM -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">The Problem</div><h2>A developer's progress is <span class="grad">scattered everywhere</span></h2></div>
+    <div class="meta">WHY THIS PROJECT<br/>EXISTS</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="margin-bottom:14px">
+      <div class="card"><h3><span class="ico">01</span>Fragmented identity</h3><p>Five platforms, five logins, five different stat pages. No single place that says “this is my actual coding profile.”</p></div>
+      <div class="card c-cyan"><h3><span class="ico">02</span>No unified truth</h3><p>Solved counts, streaks and contest ratings live in separate dashboards. Students track the rest in spreadsheets and memory.</p></div>
+      <div class="card c-orange"><h3><span class="ico">03</span>Weak motivation loop</h3><p>No shared goals, no accountability, no visible milestones. Consistency is hard to maintain without feedback.</p></div>
+      <div class="card c-pink"><h3><span class="ico">04</span>No shareable proof</h3><p>Recruiters and peers cannot see a consolidated, credible snapshot of real practice outside a resume line.</p></div>
+    </div>
+    <div class="card c-green" style="padding:14px 18px">
+      <h3 style="margin:0"><span class="ico">!</span>Result</h3>
+      <p style="font-size:12px">Effort becomes invisible, and consistency becomes hard to prove — even when the work is real.</p>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Problem Statement</span><span>02 / 19</span></div>
+</section>
+
+<!-- 3. SOLUTION -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Proposed Solution</div><h2>One account. <span class="grad">Five platforms. One story.</span></h2></div>
+    <div class="meta">PRODUCT OVERVIEW</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="grid-template-columns:1.05fr 1fr">
+      <div class="card">
+        <h3><span class="ico">CQ</span>What CodeQuest does</h3>
+        <ul>
+          <li><b>Sync</b> public coding profiles by username — no passwords shared.</li>
+          <li><b>Aggregate</b> solved counts, ratings and daily activity into one dashboard.</li>
+          <li><b>Compute</b> streak, longest streak, XP, level, progress score and skill DNA.</li>
+          <li><b>Motivate</b> with goals, badges, daily quests, titles and 1v1 duels.</li>
+          <li><b>Showcase</b> a public portfolio, printable dossier and embeddable SVG card.</li>
+          <li><b>Compete</b> on a global / college leaderboard.</li>
+        </ul>
+      </div>
+      <div class="grid g2" style="gap:10px">
+        <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">⇄</span>Sync</h3><p class="small">5 platform integrations, one handle each.</p></div>
+        <div class="card c-green"><h3 style="font-size:12px"><span class="ico">◔</span>Analyze</h3><p class="small">Streak, score, XP, level and 6-axis DNA.</p></div>
+        <div class="card c-orange"><h3 style="font-size:12px"><span class="ico">★</span>Gamify</h3><p class="small">Badges, quests, titles, freezes, duels.</p></div>
+        <div class="card c-pink"><h3 style="font-size:12px"><span class="ico">◈</span>Showcase</h3><p class="small">Public dossier + README stats card.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Solution</span><span>03 / 19</span></div>
+</section>
+
+<!-- 4. TECH STACK -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Implementation</div><h2>Technology <span class="grad">stack</span></h2></div>
+    <div class="meta">MERN + INTEGRATIONS</div>
+  </div>
+  <div class="content">
+    <div class="grid g5" style="align-content:start">
+      <div class="card"><h3 style="font-size:12.5px"><span class="ico">UI</span>Frontend</h3>
+        <ul><li>React 18</li><li>Vite 6</li><li>React Router 7</li><li>axios</li><li>react-hook-form</li><li>framer-motion</li><li>Recharts</li><li>lucide-react</li></ul></div>
+      <div class="card c-cyan"><h3 style="font-size:12.5px"><span class="ico">API</span>Backend</h3>
+        <ul><li>Node.js (ESM)</li><li>Express 4</li><li>JWT (7-day)</li><li>bcryptjs</li><li>helmet + CORS</li><li>express-validator</li><li>express-rate-limit</li></ul></div>
+      <div class="card c-green"><h3 style="font-size:12.5px"><span class="ico">DB</span>Data</h3>
+        <ul><li>MongoDB</li><li>Mongoose 8</li><li>7 collections</li><li>Unique compound indexes</li><li>Atlas (SRV)</li></ul></div>
+      <div class="card c-orange"><h3 style="font-size:12.5px"><span class="ico">⇄</span>Integrations</h3>
+        <ul><li>LeetCode GraphQL</li><li>Codeforces API</li><li>CodeChef HTML</li><li>GFG HTML</li><li>GitHub REST</li></ul></div>
+      <div class="card c-pink"><h3 style="font-size:12.5px"><span class="ico">☁</span>Deploy</h3>
+        <ul><li>Render backend</li><li>Vite production build</li><li>Static SPA serving</li><li>Single-service hosting</li></ul></div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Tech Stack</span><span>04 / 19</span></div>
+</section>
+
+<!-- 5. ARCHITECTURE -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">System Design</div><h2>Request <span class="grad">architecture</span></h2></div>
+    <div class="meta">CLIENT → API → DATABASE</div>
+  </div>
+  <div class="content">
+    <div class="flow" style="margin-bottom:16px">
+      <div class="node"><div class="n-ico">▣</div><strong>React SPA</strong><span>App.jsx<br/>state-based pages</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">⇄</div><strong>Axios Client</strong><span>Bearer token<br/>interceptor</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">⚙</div><strong>Express API</strong><span>helmet · CORS<br/>rate limit · JSON</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">🔑</div><strong>Auth + Validate</strong><span>JWT verify<br/>express-validator</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">◈</div><strong>Route Logic</strong><span>app.js handlers<br/>business rules</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">⛁</div><strong>Mongoose</strong><span>7 models<br/>indexes</span></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="n-ico">▤</div><strong>MongoDB</strong><span>Atlas / local<br/>persistent store</span></div>
+    </div>
+    <div class="grid g2">
+      <div class="card c-cyan">
+        <h3><span class="ico">⇄</span>External data sources</h3>
+        <p>LeetCode GraphQL · Codeforces API · CodeChef &amp; GFG HTML · GitHub REST.
+           <b>syncPlatformData()</b> dispatches by platform, normalises into a common stats shape, then upserts <b>PlatformAccount</b>.</p>
+      </div>
+      <div class="card c-green">
+        <h3><span class="ico">☁</span>Single-service deployment</h3>
+        <p>If <b>client/dist</b> exists, Express serves the built SPA and falls back to <b>index.html</b> for non-<b>/api</b> routes — frontend and API on one host.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Architecture</span><span>05 / 19</span></div>
+</section>
+
+<!-- 6. DATABASE -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Data Model</div><h2>Seven <span class="grad">MongoDB collections</span></h2></div>
+    <div class="meta">SCHEMA DESIGN</div>
+  </div>
+  <div class="content">
+    <div class="card" style="padding:10px 14px">
+      <table>
+        <thead><tr><th style="width:16%">Model</th><th style="width:20%">Purpose</th><th>Key fields</th></tr></thead>
+        <tbody>
+          <tr><td><b>User</b></td><td>Account &amp; persona</td><td>name, unique username, email, bcrypt password, college, bio, timezone, streakFreezes, equippedTitle, equippedTheme</td></tr>
+          <tr><td><b>PlatformAccount</b></td><td>One per platform per user</td><td>platform enum, handle, verified, stats{solved, easy/medium/hard, rating, rank, history}, source, profile, syncedAt · <b>unique(user, platform)</b></td></tr>
+          <tr><td><b>Activity</b></td><td>Manual coding log</td><td>date, platform, solved, difficulty, verified=false, note</td></tr>
+          <tr><td><b>Goal</b></td><td>Targets &amp; progress</td><td>title, target, progress, period (daily/weekly/monthly), completedAt</td></tr>
+          <tr><td><b>Portfolio</b></td><td>Public profile config</td><td>theme, headline, skills[≤12], links, isPublic · <b>unique(user)</b></td></tr>
+          <tr><td><b>Duel</b></td><td>1v1 battle room</td><td>6-char code, host, challenger, problem, status, winner, timestamps</td></tr>
+          <tr><td><b>DailyQuest</b></td><td>Problem of the day</td><td>date, title, platform, difficulty, topic, url, xpReward, completed · <b>unique(user, date)</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Database</span><span>06 / 19</span></div>
+</section>
+
+<!-- 7. CORE FLOW -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">End-to-End</div><h2>How the <span class="grad">core journey works</span></h2></div>
+    <div class="meta">REGISTER → SYNC → INSIGHT</div>
+  </div>
+  <div class="content">
+    <div class="grid g5" style="align-content:start">
+      <div class="card"><h3 style="font-size:12px"><span class="ico">1</span>Authenticate</h3><p class="small">Register/login → password hashed with bcrypt (12 rounds) → signed JWT stored in <b>localStorage</b> and sent as Bearer token.</p></div>
+      <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">2</span>Connect</h3><p class="small">User enters a platform handle → backend fetches public data → upserts a <b>PlatformAccount</b> with stats + daily history.</p></div>
+      <div class="card c-green"><h3 style="font-size:12px"><span class="ico">3</span>Aggregate</h3><p class="small"><b>/api/dashboard</b> merges all accounts and verified activity into one timeline and totals.</p></div>
+      <div class="card c-orange"><h3 style="font-size:12px"><span class="ico">4</span>Derive</h3><p class="small">Streak, longest streak, score, XP, level, badges and Developer DNA are computed on read.</p></div>
+      <div class="card c-pink"><h3 style="font-size:12px"><span class="ico">5</span>Showcase</h3><p class="small">Public page <b>/u/:username</b>, printable dossier, and <b>/api/cards/:username.svg</b> for GitHub READMEs.</p></div>
+    </div>
+    <div class="card c-cyan" style="margin-top:14px;padding:12px 16px">
+      <p class="small"><b style="color:var(--text)">Design note:</b> every derived metric is computed on request from stored raw data — no denormalised counters to keep in sync.</p>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Core Flow</span><span>07 / 19</span></div>
+</section>
+
+<!-- 8. PLATFORM SYNC -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Multi-platform <span class="grad">sync engine</span></h2></div>
+    <div class="meta">5 INTEGRATIONS</div>
+  </div>
+  <div class="content">
+    <div class="card" style="padding:10px 14px;margin-bottom:12px">
+      <table>
+        <thead><tr><th style="width:15%">Platform</th><th style="width:17%">Source</th><th>Data imported</th><th style="width:22%">Handling</th></tr></thead>
+        <tbody>
+          <tr><td><b>LeetCode</b></td><td>Public GraphQL</td><td>solved total + easy/medium/hard, contest rating, global rank, submission calendar</td><td>Calendar → daily history map</td></tr>
+          <tr><td><b>Codeforces</b></td><td>Official REST API</td><td>rating, max rating, rank, unique solved, per-day solves</td><td>Queued 2.2s rate limit</td></tr>
+          <tr><td><b>CodeChef</b></td><td>Profile HTML</td><td>rating, highest rating, solved, stars, name, country</td><td>Regex extraction</td></tr>
+          <tr><td><b>GeeksforGeeks</b></td><td>Profile HTML</td><td>solved, coding score, avatar, display name</td><td>Regex extraction</td></tr>
+          <tr><td><b>GitHub</b></td><td>REST API</td><td>public repos, followers, avatar, name</td><td>Repos → “solved”</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g3">
+      <div class="card c-green"><h3 style="font-size:12px"><span class="ico">↻</span>Single &amp; bulk refresh</h3><p class="small">Sync one account, all accounts, or auto-refresh from the top bar. Partial failures return a combined note.</p></div>
+      <div class="card c-orange"><h3 style="font-size:12px"><span class="ico">＋</span>Manual fallback</h3><p class="small">Users can store unverified baseline figures when an API is unavailable.</p></div>
+      <div class="card c-pink"><h3 style="font-size:12px"><span class="ico">⛁</span>Idempotent upsert</h3><p class="small">Unique (user, platform) index means re-syncing updates instead of duplicating.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Platform Sync</span><span>08 / 19</span></div>
+</section>
+
+<!-- 9. ANALYTICS FORMULAS -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Dashboard <span class="grad">metrics &amp; formulas</span></h2></div>
+    <div class="meta">COMPUTED ON READ</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="gap:12px">
+      <div class="card">
+        <h3><span class="ico">Σ</span>Totals &amp; streak</h3>
+        <div class="code"><span class="c">// solved from accounts + verified activity</span><br/>
+        solved = Σ account.stats.solved<br/>
+        total  = solved + Σ verifiedActivity.solved<br/><br/>
+        <span class="c">// consecutive-day run over merged dates</span><br/>
+        longest = max consecutive days<br/>
+        streak  = current run <span class="o">if</span> last day ∈ {today, yesterday}</div>
+      </div>
+      <div class="card c-cyan">
+        <h3><span class="ico">◔</span>Progress score (0–100)</h3>
+        <div class="code">score = min(100, round(<br/>
+        &nbsp;&nbsp;min(solved,500)/500 * <span class="n">35</span><br/>
+        + min(longest,30)/30 * <span class="n">25</span><br/>
+        + min(accounts,4)/4 * <span class="n">15</span><br/>
+        + min(verifiedActs,100)/100 * <span class="n">25</span> ))</div>
+      </div>
+      <div class="card c-green">
+        <h3><span class="ico">⚡</span>XP &amp; level</h3>
+        <div class="code">xp    = totalSolved*<span class="n">10</span><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ longestStreak*<span class="n">25</span><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ platforms*<span class="n">50</span><br/><br/>
+        level = max(1, floor(xp / <span class="n">500</span>) + 1)<br/>
+        next  = 500 - (xp % 500) XP</div>
+      </div>
+      <div class="card c-orange">
+        <h3><span class="ico">▦</span>365-day heatmap</h3>
+        <div class="code"><span class="c">// merge platform history + verified logs</span><br/>
+        byDay[date] += history[date]<br/>
+        byDay[date] += verifiedActivity[date]<br/><br/>
+        <span class="c">// intensity levels</span><br/>
+        ≥8 → 4 · ≥5 → 3 · ≥3 → 2 · ≥1 → 1</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Analytics</span><span>09 / 19</span></div>
+</section>
+
+<!-- 10. DEVELOPER DNA -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Developer <span class="grad">DNA radar</span></h2></div>
+    <div class="meta">6-AXIS SKILL MODEL</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="grid-template-columns:1.15fr .85fr">
+      <div class="card">
+        <h3><span class="ico">◔</span>Six computed axes (0–100)</h3>
+        <div class="code" style="font-size:10px">
+        <span class="k">Data Structures</span> = easy*.15 + medium*.4 + hard*.9 + solved*.1<br/>
+        <span class="k">Algorithms</span>      = cfRating/18 + cfSolved*.2 + bonus(&gt;1400)<br/>
+        <span class="k">Real-world Dev</span>  = ghRepos*4.5 + ghFollowers*5 + 20<br/>
+        <span class="k">Speed &amp; Grit</span>    = streak*3.5 + verifiedDays*.3 + 25<br/>
+        <span class="k">Problem Solving</span> = totalSolved/7 + 25<br/>
+        <span class="k">Math &amp; Logic</span>    = cfRating/22 + medium*.25 + 30</div>
+        <p class="small" style="margin-top:8px">Each axis is clamped to 100 with a small floor so the radar always renders meaningfully.</p>
+      </div>
+      <div class="card c-cyan">
+        <h3><span class="ico">★</span>Archetype ladder</h3>
+        <ul style="font-size:11px">
+          <li>rating ≥ 1600 → <b>Grandmaster Algorithmist</b></li>
+          <li>LeetCode solved ≥ 350 → <b>DSA Specialist</b></li>
+          <li>repos ≥ 6 &amp; solved ≥ 150 → <b>Full-Stack Craftsman</b></li>
+          <li>streak ≥ 14 or days ≥ 50 → <b>Tenacious Grinder</b></li>
+          <li>platforms ≥ 3 → <b>Polyglot Problem Solver</b></li>
+          <li>default → <b>Rising Challenger</b></li>
+        </ul>
+        <p class="small" style="margin-top:6px">Rendered with a Recharts <b>RadarChart</b> plus per-axis progress bars.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Developer DNA</span><span>10 / 19</span></div>
+</section>
+
+<!-- 11. GAMIFICATION -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Engagement &amp; <span class="grad">gamification</span></h2></div>
+    <div class="meta">MOTIVATION LOOP</div>
+  </div>
+  <div class="content">
+    <div class="grid g2">
+      <div class="card c-orange"><h3><span class="ico">★</span>Badges &amp; milestones</h3>
+        <p class="small">Six auto-unlocking tiers: First Steps, Multi-Platform (2), Streak Master (3 days), Century Club (100), Problem Slayer (500), Rating Champion (1600+). Tiered COMMON → LEGENDARY.</p></div>
+      <div class="card c-cyan"><h3><span class="ico">⚡</span>Daily quest</h3>
+        <p class="small">One curated problem per user per day (unique by date), with platform, difficulty, topic and an XP reward chip.</p></div>
+      <div class="card c-green"><h3><span class="ico">❄</span>Streak freeze &amp; titles</h3>
+        <p class="small">Collect freeze tokens and equip RPG-style developer titles (Explorer → Grandmaster of Code) shown across the app.</p></div>
+      <div class="card c-pink"><h3><span class="ico">⚔</span>1v1 speed arena</h3>
+        <p class="small">Create a room code, share it, opponent joins, both get the same problem and a 15-minute limit. First claim wins the duel.</p></div>
+    </div>
+    <div class="card" style="margin-top:12px;padding:11px 16px">
+      <p class="small"><b style="color:var(--text)">Transparency:</b> badges, streaks and DNA are fully computed from synced data. Quest/duel XP rewards are UI-level incentives in the current build.</p>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Gamification</span><span>11 / 19</span></div>
+</section>
+
+<!-- 12. PORTFOLIO + CARD -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Portfolio, public dossier &amp; <span class="grad">SVG card</span></h2></div>
+    <div class="meta">SHOWCASE LAYER</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="grid-template-columns:1fr 1fr">
+      <div class="card">
+        <h3><span class="ico">◈</span>Public developer profile</h3>
+        <ul>
+          <li>Shareable URL: <b>/u/:username</b></li>
+          <li>Three themes: midnight, violet, emerald</li>
+          <li>Headline, up to 12 skills, GitHub/website links</li>
+          <li>Privacy toggle — public or private</li>
+          <li>Verified platform stats + DNA + archetype</li>
+          <li>One-click <b>print dossier</b> for recruiters</li>
+        </ul>
+      </div>
+      <div class="card c-cyan">
+        <h3><span class="ico">&lt;/&gt;</span>Embeddable README card</h3>
+        <p class="small">A server-rendered <b>495×195 SVG</b> at <b>/api/cards/:username.svg</b>, cached 30 minutes. Drop it into a GitHub profile README:</p>
+        <div class="code" style="font-size:9.5px;margin-top:8px">[![CodeQuest Stats](<br/>&nbsp;&nbsp;https://host/api/cards/user.svg<br/>)](https://host/u/user)</div>
+        <p class="small" style="margin-top:8px">Shows solved, streak, peak rating, platform count and level.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Showcase</span><span>12 / 19</span></div>
+</section>
+
+<!-- 13. READINESS -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Feature Deep-Dive</div><h2>Company <span class="grad">readiness engine</span></h2></div>
+    <div class="meta">HEURISTIC SCORING</div>
+  </div>
+  <div class="content">
+    <div class="card" style="padding:10px 14px;margin-bottom:12px">
+      <table>
+        <thead><tr><th style="width:16%">Target</th><th>Scoring heuristic (clamped)</th><th style="width:16%">Ready at</th></tr></thead>
+        <tbody>
+          <tr><td><b>Google</b></td><td>hard*1.6 + medium*.22 + max(0,rating−1400)*.14 + 36 → clamp 38–97</td><td>≥ 75%</td></tr>
+          <tr><td><b>Amazon</b></td><td>medium*.32 + easy*.1 + 48 → clamp 45–98</td><td>≥ 75%</td></tr>
+          <tr><td><b>Microsoft</b></td><td>total*.08 + medium*.24 + 46 → clamp 46–98</td><td>≥ 75%</td></tr>
+          <tr><td><b>Meta</b></td><td>medium*.28 + max(0,rating−1300)*.1 + 38 → clamp 36–96</td><td>≥ 75%</td></tr>
+          <tr><td><b>Startups</b></td><td>total*.09 + 52 → clamp 50–99</td><td>≥ 75%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g2">
+      <div class="card c-green"><h3><span class="ico">✓</span>Strengths</h3><p class="small">Generated from solve depth, contest rating and medium-difficulty confidence.</p></div>
+      <div class="card c-orange"><h3><span class="ico">→</span>Focus areas</h3><p class="small">Targeted next steps such as more hard problems, timed contests and daily consistency.</p></div>
+    </div>
+    <p class="small muted" style="margin-top:10px">This is a deterministic heuristic model presented as an “AI intelligence” layer; the Gemini key is reserved for a future LLM-backed version.</p>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Readiness</span><span>13 / 19</span></div>
+</section>
+
+<!-- 14. SECURITY -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Engineering</div><h2>Security &amp; <span class="grad">reliability</span></h2></div>
+    <div class="meta">DEFENCE IN DEPTH</div>
+  </div>
+  <div class="content">
+    <div class="grid g4" style="gap:11px">
+      <div class="card"><h3 style="font-size:12px"><span class="ico">🔒</span>Passwords</h3><p class="small">bcrypt, 12 rounds; hash never returned (<b>select:false</b>).</p></div>
+      <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">🔑</span>Sessions</h3><p class="small">Signed JWT, 7-day expiry, verified on every protected route.</p></div>
+      <div class="card c-green"><h3 style="font-size:12px"><span class="ico">✓</span>Validation</h3><p class="small">express-validator on inputs + Mongoose schema constraints.</p></div>
+      <div class="card c-orange"><h3 style="font-size:12px"><span class="ico">⏱</span>Rate limits</h3><p class="small">Auth 40/15min; sync 15–30/min to protect upstream APIs.</p></div>
+      <div class="card c-pink"><h3 style="font-size:12px"><span class="ico">🛡</span>Hardening</h3><p class="small">helmet headers, 32 KB JSON cap, CORS, central error handler.</p></div>
+      <div class="card"><h3 style="font-size:12px"><span class="ico">⛁</span>Integrity</h3><p class="small">Unique indexes prevent duplicate accounts, portfolios, quests.</p></div>
+      <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">🌐</span>DNS fix</h3><p class="small">Custom resolver for MongoDB SRV when ISP DNS fails.</p></div>
+      <div class="card c-green"><h3 style="font-size:12px"><span class="ico">☁</span>Deploy guard</h3><p class="small">Production refuses weak JWT secrets; SPA + API on one host.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Security</span><span>14 / 19</span></div>
+</section>
+
+<!-- 15. FEATURE MATRIX -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Summary</div><h2>Important features <span class="grad">at a glance</span></h2></div>
+    <div class="meta">BUILD STATUS</div>
+  </div>
+  <div class="content">
+    <div class="card" style="padding:8px 14px">
+      <table class="compact">
+        <thead><tr><th style="width:30%">Feature</th><th>What it does</th><th style="width:16%">Status</th></tr></thead>
+        <tbody>
+          <tr><td><b>Auth (register/login)</b></td><td>JWT sessions, bcrypt hashing, protected routes</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Platform sync</b></td><td>5 integrations, single/bulk refresh, idempotent upsert</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Dashboard analytics</b></td><td>Solved, streak, score, XP, level, 365-day heatmap</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Developer DNA</b></td><td>6-axis radar + archetype classification</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Goals &amp; activity</b></td><td>Targets with progress; manual session logging</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Achievements</b></td><td>6 auto-unlocking tiered badges</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Leaderboard</b></td><td>Global/college ranking with search</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Public portfolio</b></td><td>Themes, skills, privacy, printable dossier</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>SVG README card</b></td><td>Server-rendered stats card, 30-min cache</td><td><span class="tag ok">Working</span></td></tr>
+          <tr><td><b>Readiness engine</b></td><td>Per-company heuristic scores + advice</td><td><span class="tag warn">Heuristic</span></td></tr>
+          <tr><td><b>Daily quest</b></td><td>One curated problem per day</td><td><span class="tag warn">Curated</span></td></tr>
+          <tr><td><b>Arena duels</b></td><td>Room codes, shared problem, 15-min battle</td><td><span class="tag warn">No realtime</span></td></tr>
+          <tr><td><b>XP rewards</b></td><td>Quest/duel reward messages</td><td><span class="tag bad">Not persisted</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Feature Matrix</span><span>15 / 19</span></div>
+</section>
+
+<!-- 16. CHALLENGES -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Engineering</div><h2>Challenges <span class="grad">&amp; solutions</span></h2></div>
+    <div class="meta">REAL-WORLD FIXES</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="gap:11px">
+      <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">1</span>MongoDB SRV not resolving</h3><p class="small"><b>Fix:</b> custom <b>dns.lookup</b> override using public resolvers, then fall back to system lookup.</p></div>
+      <div class="card c-orange"><h3 style="font-size:12px"><span class="ico">2</span>Codeforces rate limits</h3><p class="small"><b>Fix:</b> a promise queue enforcing a 2.2s gap between requests, with graceful partial failure.</p></div>
+      <div class="card c-green"><h3 style="font-size:12px"><span class="ico">3</span>Inconsistent platform APIs</h3><p class="small"><b>Fix:</b> one normalised stats shape across REST, GraphQL and HTML sources.</p></div>
+      <div class="card c-pink"><h3 style="font-size:12px"><span class="ico">4</span>Slow dashboard</h3><p class="small"><b>Fix:</b> parallel queries with <b>Promise.all</b> and bounded result limits.</p></div>
+      <div class="card"><h3 style="font-size:12px"><span class="ico">5</span>SPA routing on one host</h3><p class="small"><b>Fix:</b> Express static serving with an <b>index.html</b> fallback for non-API routes.</p></div>
+      <div class="card c-cyan"><h3 style="font-size:12px"><span class="ico">6</span>Dev proxy mismatch</h3><p class="small"><b>Fix:</b> Vite proxies <b>/api</b> to the backend port so cookies/headers stay same-origin.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Challenges</span><span>16 / 19</span></div>
+</section>
+
+<!-- 17. LIMITATIONS -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Honest Scope</div><h2>Known <span class="grad">limitations</span></h2></div>
+    <div class="meta">WHAT IS NOT DONE YET</div>
+  </div>
+  <div class="content">
+    <div class="grid g2" style="gap:12px">
+      <div class="card c-orange">
+        <h3><span class="ico">!</span>Product gaps</h3>
+        <ul>
+          <li>Manual entries are labelled unverified but still count in some totals.</li>
+          <li>“AI” readiness and daily quest are deterministic heuristics, not an LLM.</li>
+          <li>Quest/duel XP messages are not persisted to the XP ledger.</li>
+          <li>Duels use manual polling, not live WebSocket updates.</li>
+          <li>No email verification, password reset or username change.</li>
+        </ul>
+      </div>
+      <div class="card c-pink">
+        <h3><span class="ico">⚠</span>Technical risks &amp; fixes</h3>
+        <ul>
+          <li><b>Leaked example credentials</b> in a committed file → rotate secrets immediately.</li>
+          <li>HTML scraping for CodeChef/GFG is fragile → move to stable APIs.</li>
+          <li>GitHub sync ignores the token → 60 req/hour per IP limit.</li>
+          <li>Leaderboard runs N+1 queries → aggregate pipeline needed.</li>
+          <li>No automated tests or CI → add coverage before scaling.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Limitations</span><span>17 / 19</span></div>
+</section>
+
+<!-- 18. ROADMAP -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">What's Next</div><h2>Technical <span class="grad">roadmap</span></h2></div>
+    <div class="meta">SCALING THE PLATFORM</div>
+  </div>
+  <div class="content">
+    <div class="grid g4" style="align-content:start">
+      <div class="card"><div class="tag" style="margin-bottom:9px">Phase 1</div><h3 style="font-size:13px">Harden</h3><ul><li>Rotate all secrets</li><li>Duel authorization</li><li>Persist XP ledger</li><li>Input + test coverage</li></ul></div>
+      <div class="card c-cyan"><div class="tag" style="margin-bottom:9px">Phase 2</div><h3 style="font-size:13px">Real-time &amp; AI</h3><ul><li>WebSocket duels</li><li>Gemini-powered insights</li><li>Contest feeds</li><li>Smart quest selection</li></ul></div>
+      <div class="card c-green"><div class="tag" style="margin-bottom:9px">Phase 3</div><h3 style="font-size:13px">Scale</h3><ul><li>Redis caching</li><li>Aggregation pipelines</li><li>Pagination everywhere</li><li>Background sync jobs</li></ul></div>
+      <div class="card c-orange"><div class="tag" style="margin-bottom:9px">Phase 4</div><h3 style="font-size:13px">Product</h3><ul><li>GitHub OAuth</li><li>Email + password reset</li><li>Team &amp; college leagues</li><li>Mobile app</li></ul></div>
+    </div>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Roadmap</span><span>18 / 19</span></div>
+</section>
+
+<!-- 19. CONCLUSION -->
+<section class="slide">
+  <div class="topbar"></div>
+  <div class="head">
+    <div><div class="kicker">Conclusion</div><h2>A working foundation for a <span class="grad">developer identity layer</span></h2></div>
+    <div class="meta">THANK YOU</div>
+  </div>
+  <div class="content">
+    <div class="grid g3" style="margin-bottom:14px">
+      <div class="card c-green"><div class="stat-big">5</div><div class="stat-lbl">Platforms integrated</div><p class="small" style="margin-top:8px">LeetCode · Codeforces · CodeChef · GFG · GitHub</p></div>
+      <div class="card c-cyan"><div class="stat-big">7</div><div class="stat-lbl">Data models</div><p class="small" style="margin-top:8px">Accounts, activity, goals, portfolio, duels, quests</p></div>
+      <div class="card c-orange"><div class="stat-big">19</div><div class="stat-lbl">Screens &amp; views</div><p class="small" style="margin-top:8px">Dashboard, arena, achievements, dossier and more</p></div>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="ico">✓</span>Delivered</h3>
+        <ul><li>Secure auth + protected API</li><li>Real multi-platform aggregation</li><li>Computed analytics, DNA and badges</li><li>Public portfolio + embeddable card</li></ul>
+      </div>
+      <div class="card c-cyan">
+        <h3><span class="ico">↗</span>Impact</h3>
+        <p class="small">Turns scattered practice into one consistent, shareable and motivating developer story — while keeping the path clear to real AI insights and real-time competition.</p>
+        <div class="pill-row"><span class="tag ok">Working product</span><span class="tag">Presentation ready</span></div>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted)">Thank you — questions welcome.</p>
+  </div>
+  <div class="footer"><span><b>CodeQuest</b> · Conclusion</span><span>19 / 19</span></div>
+</section>
+
+</body>
+</html>
